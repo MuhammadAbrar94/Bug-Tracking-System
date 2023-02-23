@@ -1,26 +1,18 @@
 <h1>Pages#home</h1>
-<% if current_user  %>
-    <% if current_user.role == "manager" %>
-        <h1>Manager</h1>
-        <p> Hello <%= current_user.email %> <p>
-        <p> You are a <%= current_user.role %><p>
-        <ul>
-        <% @projects.each do |project| %>
-          <li><%= project.title %> <%= link_to "edit", edit_project_path(project)  %></li>
-        <% end %>
-      </ul>
-        <%= link_to "sign out", destroy_user_session_path, 'data-turbo-method': :delete %>
-        <% else if current_user.role == "developer" %>
-            <h1>Developer</h1>
-            <p> Hello <%= current_user.email %> <p>
-            <p> You are a <%= current_user.role %><p>
-            <%= link_to "sign out", destroy_user_session_path, 'data-turbo-method': :delete %>
-        <% end %>
-    <% end %>
-    <% else %>
-     <h1>You are not sign in<h1>    
-     <%= link_to "Sign up", new_user_registration_path %>
-     <br>
-     <%= link_to "Sign in", new_user_session_path %>
-     
+<% if current_user %>
+  <% if current_user.role == "manager" %>
+  <h1>Manager</h1>
+    <%= render template: "projects/index" %>
+  <% elsif current_user.role == "developer" %>
+    <h1>Developer</h1>
+    <%= render template: "projects/index" %>
+  <% elsif current_user.role == "qa" %>
+    <h1>QA</h1>
+    <%= render template: "projects/index" %>
+  <% end %>
+<% else %>
+  <h1>You are not signed in</h1>    
+  <%= link_to "Sign up", new_user_registration_path %>
+  <br>
+  <%= link_to "Sign in", new_user_session_path %>
 <% end %>

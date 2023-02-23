@@ -1,0 +1,13 @@
+
+<h5 class="card-title">title: <%=@buge.title%></h5>
+<p class="card-text">description: <%=@buge.description%></p>
+<p class="card-text">BugType: <%=@buge.typeBug%></p>
+<p class="card-text">deadline: <%=@buge.deadline%></p>
+<p class="card-text">status: <%=@buge.status%></p>
+<p>bug Project Id: <%= @buge.project.id %></p>
+
+
+<img src = '<%=@buge.image%>' style="max-width: 50%; max-height: 100%;" />
+<br>
+<%= link_to "Return to see all the assigned projects", projects_path %> 
+</div>

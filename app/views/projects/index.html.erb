@@ -1,3 +1,27 @@
-<% @project.each do |p| %>
-    <%= p.title %>
+<p> Hello <%= current_user.email %> </p>
+<p> You are a <%= current_user.role %> </p>
+<% if current_user.role == "manager" %> 
+  <p> <%= link_to "New" , new_project_path %> </p>
+  <h3>Listing all the projects</h3>
+  <ul>
+  <% current_user.managed_projects.each do |project| %>
+    <li><%= project.title %> <%= link_to "edit", edit_project_path(project)  %> 
+                          <%= link_to "Add D & QA" , new_assign_path(project_id: project.id)  %>
+                          <%= button_to "Delete this project", project_path(project), method: :delete,
+                                data: { confirm: "Are you sure you want to delete?" },
+                                class: "btn btn-xs btn-danger" %>
+    </li>         
+    <% end %>
+  <% elsif current_user.role == "developer" %> 
+      <% current_user.assigned_projects.each do |project| %>
+        <li><%= project.title %> <%= link_to "edit", buges_path(project_id: project.id)  %> </li>  
+      <% end %>
+        
+  <% elsif current_user.role == "qa" %> 
+      <% current_user.assigned_projects.each do |project| %>
+        <li><%= project.title %>  
+        <%= link_to "Show all Bugs" , buges_path(project_id: project.id)  %>
+        
+</li>        <% end %>
+  </ul>     
 <% end %>

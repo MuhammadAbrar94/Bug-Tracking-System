@@ -1,0 +1,18 @@
+<%= render template: "assigns/index" %>
+<h1>List All developer and qa</h1>
+<%= form_tag assigns_path(project_id: @project.id) do %>
+    <% @users.each do |user| %>
+        
+      <div>
+        <% if user.role == "developer" %>
+            <h3>Developer</h3>
+            <% else %>
+            <h3>QA</h3>
+            <% end %>
+
+        <%= check_box_tag 'user_ids[]', user.id %>
+        <%= label_tag "user_#{user.id}", user.email %>
+      </div>
+    <% end %>
+    <%= submit_tag 'Assign' %>
+  <% end %>

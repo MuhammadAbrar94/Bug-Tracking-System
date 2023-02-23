@@ -1,6 +1,9 @@
 class ProjectsController < ApplicationController
     def index
-        @project = Project.all
+        if current_user
+            @user = current_user
+            @projects = @user.managed_projects
+        end
     end
 
     def new
@@ -8,11 +11,12 @@ class ProjectsController < ApplicationController
     end
     def create
         @project = Project.new(project_params)
+        @project.user = current_user
         if @project.save
-          flash[:success] = "Added #{@project.title} to projects!"
-          redirect_to project_path(@project)
+            flash[:success] = "Added #{@project.title} to projects!"
+            redirect_to project_path(@project)
         else
-          render 'new'
+            render 'new'
         end
       end
       
@@ -33,5 +37,17 @@ class ProjectsController < ApplicationController
     def show
         @project = Project.find(params[:id])
     end
+
+    def destroy
+        Project.find(params[:id]).destroy
+        flash[:success] = "Project deleted successfully"
+        redirect_to projects_path
+    end
+
+    private
+    
+        def project_params
+        params.require(:project).permit(:title, :description)
+        end
 
 end
