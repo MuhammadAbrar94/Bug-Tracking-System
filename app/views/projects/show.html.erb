@@ -4,8 +4,13 @@
 <small>Created by :<%= @project.user.email %></small>
 
 <h3>Assigned to:</h3>
-<% @project.assigns.each do |project| %>
-  <li><%= project.user.email %></li>
+<%= link_to "Add assigne", edit_assign_path(5, project_id: @project.id) %>
+<% @project.assigns.each do |assign| %>
+  <li><%= assign.user.email %>
+  <%= button_to "Delete this assigne", assign_path(assign, project_id: @project.id), method: :delete,
+                                    data: { confirm: "Are you sure you want to delete?" } %>
+  </li>
+
   <% end %> 
 <p>created: <%= time_ago_in_words(@project.created_at) %> ago</p>
 

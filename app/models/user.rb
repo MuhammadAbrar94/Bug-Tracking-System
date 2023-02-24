@@ -9,5 +9,5 @@ class User < ApplicationRecord
   has_many :managed_projects, class_name: 'Project', foreign_key: 'user_id'
   
   has_many :assigns
-  has_many :assigned_projects, through: :assigns, source: :project
+  has_many :assigned_projects, through: :assigns, source: :project,dependent: :destroy
 end

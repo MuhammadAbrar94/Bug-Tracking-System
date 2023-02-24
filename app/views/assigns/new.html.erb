@@ -1,20 +1,24 @@
-<%= render template: "assigns/index" %>
-<h1>List All developer and qa</h1>
-<%= form_tag assigns_path(project_id: @project.id) do %>
 
-  
-    <% @users.each do |user| %>
-        
-      <div>
-        <% if user.role == "developer" %>
-            <h3>Developer</h3>
-            <% else %>
-            <h3>QA</h3>
-            <% end %>
 
-        <%= check_box_tag 'user_ids[]', user.id %>
-        <%= label_tag "user_#{user.id}", user.email %>
+  <h2>Assigned Users</h2>
+
+
+  <%= form_for(@assign, :html => {class: "form-horizontal", role: 
+  "form", url: assigns_path, method: :post}) do |f| %>
+    <%= f.hidden_field :project_id, value: @project.id   %>
+
+<div>
+      <%= label_tag "user_ids[]", "Select users" %><br>
+      <%= select_tag "user_ids[]", options_from_collection_for_select(@users, :id, :email), { :multiple => true } %>
+    </div>
+                                                                  
+    </div>
+      <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+          <%= f.submit class: "btn btn-primary btn-lg btn-xlarge" %>
+        </div>
       </div>
     <% end %>
-    <%= submit_tag 'Assign' %>
-  <% end %>
+    <div class="col-md-4 col-md-offset-4 colormatch">
+      [ <%= link_to "Cancel request and return to project listing", projects_path %> ]
+    </div>

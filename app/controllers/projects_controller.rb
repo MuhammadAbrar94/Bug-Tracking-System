@@ -18,10 +18,12 @@ class ProjectsController < ApplicationController
         if @project.save
             @assigns = []
             # loop through the selected user_ids to create new Assign records
-            params[:user_ids].each do |user_id|
-                user = User.find(user_id)
-                assign = Assign.new(user: user, project: @project)
-                @assigns << assign if assign.save
+            if !params[:user_ids].nil?
+                params[:user_ids].each do |user_id|
+                    user = User.find(user_id)
+                    assign = Assign.new(user: user, project: @project)
+                    @assigns << assign if assign.save
+                end
             end
             flash[:success] = "Added #{@project.title} to projects!"
             redirect_to project_path(@project)
