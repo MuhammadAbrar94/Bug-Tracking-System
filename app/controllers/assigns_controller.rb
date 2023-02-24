@@ -1,5 +1,5 @@
 class AssignsController < ApplicationController
-
+  load_and_authorize_resource
     def index
         @assign = assign.all
     end

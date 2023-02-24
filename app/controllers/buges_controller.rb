@@ -1,5 +1,5 @@
 class BugesController < ApplicationController
-
+    load_and_authorize_resource
     def index
         @project = Project.find(params[:project_id])
         @buge = Buge.where(project_id: params[:project_id])

@@ -1,13 +1,14 @@
-<div class="card" style="height: 20rem ;width: 58rem; margin: 2rem auto ">
-  <div class="card-body" style="text-align: center;">
-    <h5 class="card-title"><%=@project.title%></h5>
-    <p class="card-text"><%=@project.description%></p>
-    <small><%= @project.user.email %></small>
-      <div class="pull-right">
-        <%= time_ago_in_words(@project.created_at) %> ago
-      </div>
-  </div>
-  <div class="recipe-actions">
+
+<h2>Project title: <%=@project.title%></h2>
+<p>Description: <%=@project.description%></p>
+<small>Created by :<%= @project.user.email %></small>
+
+<h3>Assigned to:</h3>
+<% @project.assigns.each do |project| %>
+  <li><%= project.user.email %></li>
+  <% end %> 
+<p>created: <%= time_ago_in_words(@project.created_at) %> ago</p>
+
   <%= link_to "Edit this project", edit_project_path(@project), 
 
                                                 class: 'btn btn-xs btn-warning' %>
@@ -15,5 +16,5 @@
                                     data: { confirm: "Are you sure you want to delete?" },
                                     class: "btn btn-xs btn-danger" %>
 </div>  
-<%= link_to "return to recipes listing", projects_path %> 
+<%= link_to "return to project listing", projects_path %> 
 </div>

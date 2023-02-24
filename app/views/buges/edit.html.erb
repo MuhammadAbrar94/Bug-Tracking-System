@@ -1,68 +1,105 @@
-<h1 style=" margin: 2rem auto ">New the buge</h1>
+
+<% if current_user.role == "qa"%>
+
+  <h1 style=" margin: 2rem auto ">New the buge</h1>
+
+  <div class="row">
+    <div class="col-md-12">
+      <%= form_for(@buge, :html => {class: "form-horizontal", 
+
+                                                                  role: "form"}) do |f| %>
+        <div class="form-group">
+          <div class="control-label col-md-2">
+            <%= f.label :title %>
+          </div>
+          <div class="col-md-8">
+            <%= f.text_field :title, class: "form-control", 
+
+                                                  placeholder: "Name of buge", 
+                                                                        autofocus: true %>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="control-label col-md-2">
+            <%= f.label :status %>
+          </div>
+          <div class="col-md-8">
+            <%= f.text_area :status, rows: 10, class: "form-control", 
+                                      placeholder: "Enter steps to create buge" %>
+          </div>
+        </div>
+        <div class="form-group">
+    <div class="control-label col-md-2">
+      <%= f.label :deadline %>
+    </div>
+    <div class="col-md-8">
+      <%= f.date_field :deadline, class: "form-control", 
+                              placeholder: "Enter deadline" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="control-label col-md-2">
+      <%= f.label :image %>
+    </div>
+    <div class="col-md-8">
+      <%= f.file_field :image, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+  <div class="control-label col-md-2">
+    <%= f.label :typeBug %>
+  </div>
+  <div class="col-md-8">
+    <%= f.select :status, options_for_select([['Bug', 'Bug'], 
+        ['Feature', 'Feature']], selected: @buge.status), {}, class: "form-control" %>
+          
+    </div>
+</div>
+
+  <div class="form-group">
+    <div class="control-label col-md-2">
+      <%= f.label :description %>
+    </div>
+    <div class="col-md-8">
+      <%= f.text_field :description, class: "form-control", 
+                                placeholder: "Enter type of buge" %>
+    </div>
+  </div>
+        <div class="form-group">
+          <div class="col-md-offset-2 col-md-10">
+            <%= f.submit class: "btn btn-primary btn-lg btn-xlarge" %>
+          </div>
+        </div>developer
+      <% end %>
+      <div class="col-md-4 col-md-offset-4 colormatch">
+      [ <%= link_to "Cancel request and return to Bugs listing", buges_path(project_id: @project.id) %> ]
+      </div>
+    </div>
+  </div>
+<% elsif current_user.role == "developer"%>
+  
+
+
+
+<h1 style="margin: 2rem auto">Edit the bug status</h1>
 
 <div class="row">
   <div class="col-md-12">
-    <%= form_for(@buge, :html => {class: "form-horizontal", 
-
-                                                                 role: "form"}) do |f| %>
-      <div class="form-group">
-        <div class="control-label col-md-2">
-          <%= f.label :title %>
-        </div>
-        <div class="col-md-8">
-          <%= f.text_field :title, class: "form-control", 
-
-                                                 placeholder: "Name of buge", 
-                                                                       autofocus: true %>
-        </div>
-      </div>
+    <%= form_for(@buge, :html => {class: "form-horizontal", role: "form"}) do |f| %>
       <div class="form-group">
         <div class="control-label col-md-2">
           <%= f.label :status %>
         </div>
         <div class="col-md-8">
-          <%= f.text_area :status, rows: 10, class: "form-control", 
-                                    placeholder: "Enter steps to create buge" %>
+          <% if @buge.typeBug == "bug" %>
+            <%= f.select :status, options_for_select([['New', 'New'], ['Started', 'Started'], ['Completed', 'Completed']], selected: @buge.status), {}, class: "form-control" %>
+          <% elsif @buge.typeBug == "feature" %>
+            <%= f.select :status, options_for_select([['New', 'New'], ['Started', 'Started'], ['Resolved', 'Resolved']], selected: @buge.status), {}, class: "form-control" %>
+          <% end %>
         </div>
       </div>
-      <div class="form-group">
-  <div class="control-label col-md-2">
-    <%= f.label :deadline %>
-  </div>
-  <div class="col-md-8">
-    <%= f.date_field :deadline, class: "form-control", 
-                             placeholder: "Enter deadline" %>
-  </div>
-</div>
-
-<div class="form-group">
-  <div class="control-label col-md-2">
-    <%= f.label :image %>
-  </div>
-  <div class="col-md-8">
-    <%= f.file_field :image, class: "form-control" %>
-  </div>
-</div>
-
-<div class="form-group">
-  <div class="control-label col-md-2">
-    <%= f.label :typeBug %>
-  </div>
-  <div class="col-md-8">
-    <%= f.text_field :typeBug, class: "form-control", 
-                              placeholder: "Enter type of buge" %>
-  </div>
-</div>
-
-<div class="form-group">
-  <div class="control-label col-md-2">
-    <%= f.label :description %>
-  </div>
-  <div class="col-md-8">
-    <%= f.text_field :description, class: "form-control", 
-                              placeholder: "Enter type of buge" %>
-  </div>
-</div>
       <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
           <%= f.submit class: "btn btn-primary btn-lg btn-xlarge" %>
@@ -70,7 +107,9 @@
       </div>
     <% end %>
     <div class="col-md-4 col-md-offset-4 colormatch">
-    [ <%= link_to "Cancel request and return to buge listing", buges_path(project_id: @project.id) %> ]
+      [ <%= link_to "Cancel request and return to bug listing", buges_path(project_id: @project.id) %> ]
     </div>
   </div>
 </div>
+
+<% end %>

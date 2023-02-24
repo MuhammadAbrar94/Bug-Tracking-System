@@ -17,13 +17,8 @@
         </div>
       </div>
       <div class="form-group">
-        <div class="control-label col-md-2">
-          <%= f.label :status %>
-        </div>
-        <div class="col-md-8">
-          <%= f.text_area :status, rows: 10, class: "form-control", 
-                                    placeholder: "Enter steps to create buge" %>
-        </div>
+        
+                                                                  
       </div>
       <div class="form-group">
   <div class="control-label col-md-2">
@@ -49,9 +44,10 @@
     <%= f.label :typeBug %>
   </div>
   <div class="col-md-8">
-    <%= f.text_field :typeBug, class: "form-control", 
-                              placeholder: "Enter type of buge" %>
-  </div>
+    <%= f.select :status, options_for_select([['Bug', 'Bug'], 
+        ['Feature', 'Feature']], selected: @buge.status), {}, class: "form-control" %>
+          
+    </div>
 </div>
 
 <div class="form-group">

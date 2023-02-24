@@ -1,6 +1,8 @@
 <%= render template: "assigns/index" %>
 <h1>List All developer and qa</h1>
 <%= form_tag assigns_path(project_id: @project.id) do %>
+
+  
     <% @users.each do |user| %>
         
       <div>
